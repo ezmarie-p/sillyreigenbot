@@ -10,7 +10,7 @@ changes and you're good to go.
 - GuglioIsStupid - 2023
 """
 from dotenv import load_dotenv
-import os, json, tweepy, time, random, requests, re, sys
+import os, json, tweepy, time, random, requests, re, sys, time
 
 # Twitter API Keys
 # You will need to include your OWN Twitter API keys in a .env file in the same directory
@@ -244,8 +244,10 @@ Possible error!
 Possible error!
     1. API key doesn't have permission to tweet | check if it's read-only
                             """)
+              print("Sleeping for 1800 seconds.")
+              time.sleep(1800)
               sys.exit()
-      print(f"Tweeted: {tweet}")
+      print(f"{time.ctime()}Tweeted: {tweet}")
     except:
       print(f"Tweet failed: {tweet}")
       # print the error
