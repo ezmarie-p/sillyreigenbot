@@ -244,9 +244,22 @@ Possible error!
 Possible error!
     1. API key doesn't have permission to tweet | check if it's read-only
                             """)
-              print("Sleeping for 1800 seconds.")
-              time.sleep(1800)
               sys.exit()
+            elif sys.exc_info()[0] == tweepy.errors.TooManyRequests:
+              exc_type, exc_value, exc_traceback = sys.exc_info()
+
+              reset_timestamp = 0
+              # Try to safely get the reset time from response headers, if available
+              try:
+                reset_timestamp = int(exc_value.response.headers.get("x-rate-limit-reset", 0))
+              except Exception:
+                pass
+
+              wait_time = max(reset_timestamp - int(time.time()), 60)
+              print(f"Rate limit hit. Sleeping for {wait_time} seconds.")
+              time.sleep(wait_time)
+              pass
+
       print(f"{time.ctime()}Tweeted: {tweet}")
     except:
       print(f"Tweet failed: {tweet}")
@@ -286,4 +299,4 @@ Possible error!
           print("Couldn't delete video; it probably doesn't exist")
     now = time.time()
   else:
-    time.sleep(1)
+    time.sleep(1800)
