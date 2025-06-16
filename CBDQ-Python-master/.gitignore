@@ -1,0 +1,6 @@
+.env
+!example.env
+src/bot.json
+!example.bot.json
+__pycache__/
+src/media
