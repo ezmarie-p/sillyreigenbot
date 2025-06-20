@@ -22,7 +22,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 JsonSource = Tracery("bot.json")
 
-TimeBetweenTweets = 60 * 60 * 0.5 # 30 minutes. 60 seconds * 60 minutes * 0.5 hours
+TimeBetweenTweets = 60 * 60 * 1 # 60 minutes. 60 seconds * 60 minutes * 1 hours
 
 env_path = os.path.join(os.getcwd(), "cred.env")
 
@@ -86,15 +86,6 @@ def GenerateTweet():
         # add to mediaList
         mediaList.append(img)
         
-    for video in re.findall(r"{vid \S+}", tweet):
-        # remove {vid \S+}
-        tweet = tweet.replace(video, "")
-        # remove {vid}
-        video = video.replace("{vid ", "").replace("}", "").strip()
-        # add to mediaList
-        mediaList.append(video)
-        
-
     for num in re.findall(r"{rand \d+, \d+}", tweet):
         num = num.replace("{rand ", "").replace("}", "").strip()
         num1, num2 = num.split(",")
@@ -155,5 +146,6 @@ if __name__ == "__main__":
         if time.time() - (now or 0) >= TimeBetweenTweets:
             GenerateTweet()
             now = time.time()
+            time.sleep(1)
         else:
             time.sleep(1800)
